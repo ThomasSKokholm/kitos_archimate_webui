@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: ./app
+    # image: :latest
+    #image: php:7.4-apache
+    container_name: kitos_archi_webui
+    # depends_on:
+    volumes:
+      - ./app/:/var/www/html/
+    ports:
+      - "8063:80"
