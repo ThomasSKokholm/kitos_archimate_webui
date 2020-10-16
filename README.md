@@ -58,3 +58,11 @@ sudo docker-compose up -d
 * Tryk på 'Kør archimate Script' knappen.
 * så vil der gå ca. 10-15 sekunder, hvorefter vil der dukke en fil download dialog op eller der vil blive automatisk hente din nye archimate fil til din download/overførsler mappe.
 * Hvis scriptet ikke er færdig med at køre, efter 15 sekunder, kan du vente 10-15 sekunder, og så opdater/genopfriske websiden, hvor så archimate filen skulle dukke frem.
+
+# Begrænsninger #
+
+* Kan max håndter 2MB store archimate fil upload, kan ændres i følgende linjen, i webui/index.php
+```
+// Check file size
+  if ($_FILES["fileToUpload"]["size"] > 2000000) {
+```
