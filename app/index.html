@@ -9,4 +9,9 @@
 <!-- <button class="btn"><i class="fa fa-download"></i>[Download 🗎]</button> -->
 <!-- <button class="btn"><i class="fa fa-undo"></i>[Start Forfra ↺]</button> -->
 <!-- <button class="btn"><i class="fa fa-upload"></i>[Upload ☁]</button> -->
-
+<script>
+    str = location.toString();
+    var newstr = str.substring(0, str.lastIndexOf("/"));
+    var webuiUrl = newstr + '/webui/';
+    location.assign(webuiUrl);
+</script>
