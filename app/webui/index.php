@@ -3,6 +3,14 @@ session_start();
 if(empty($_SESSION['unikSessionId'])){
   $_SESSION['unikSessionId'] = uniqid();
 }
+// Nulstil session, hvis valgt.
+if(isset($_POST["resetSession"]))
+{
+  session_destroy();
+  //session_start();
+  header('Location: http://'.$_SERVER['HTTP_HOST'].'/webui/index.php');
+}
+// Download, hvis fil er klar.
 $downloadfile = 'downloaded_'.$_SESSION['unikSessionId'].'.archimate';
 $_SESSION['unikFilnavn'] = $downloadfile;
 $file = "/tmp/uploads/".$downloadfile;
@@ -342,13 +350,19 @@ function test_input($data) {
               </div>
             </div>
 
-
             <h3>Upload din archimate model fil:</h3>
             <label for="fileSelect">Filnavn:</label>
             <input type="file" name="fileToUpload" id="fileToUpload" multiple>
             <!-- Nulstil sessions variabler -->
-            <input type="submit" name="resetSession" value="Upload" id="resetSessionButton">
-            <?php                
+            <div class="row">
+              <div class="col-75">
+                <label for="resetSession">Hvis du vil uploade flere filer, skal du nulstille efter, hver download.</label>
+              </div>
+              <div class="col-25">
+                <input type="submit" name="resetSession" value="Start Forfra" id="resetSessionButton">
+              </div>
+            </div>
+            <?php
               if (!empty($uploadedfilename) and !is_dir($uploadedfilename) and file_exists($uploadedfilename)){
                 echo '<input id="submitUploadButton" type="button" name="submitUpload" value="Filen er blevet uploaded" class="w3-button w3-green">';
               } else {
@@ -501,19 +515,15 @@ function test_input($data) {
 		};
 
     function vis_progress_bar(slut,rest_tid) {
-        <?php 
-        echo "//rest: ".$rest_tid."\n";
-        $start_bredde = (int) intval(($rest_tid/11)*100);//11=sekunder_run_time
-        echo "//start_brede: ".$start_bredde."\n";
-        echo "//slut: ".$slut."\n"; ?>
+        <?php
+          $start_bredde = (int) intval(($rest_tid/11)*100);//11=sekunder_run_time
+        ?>
         move(<?php echo $start_bredde ?>);
     }
     // omdøb noFileMsgOLD
     var noFileMsgOLD = document.getElementById('FilValgt');
     var file = document.getElementById("fileToUpload"); 
 
-    // https://stackoverflow.com/questions/8664486/javascript-code-to-stop-form-submission
-    // https://stackoverflow.com/questions/3350247/how-to-prevent-form-from-being-submitted/34347610
     function checkIfFileSelected() {
         if(file.files.length == 0 ){
             noFileMsgOLD.innerHTML = "Ingen fil er valgt!";
