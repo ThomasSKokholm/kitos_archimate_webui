@@ -7,7 +7,6 @@ if(empty($_SESSION['unikSessionId'])){
 if(isset($_POST["resetSession"]))
 {
   session_destroy();
-  //session_start();
   header('Location: http://'.$_SERVER['HTTP_HOST'].'/webui/index.php');
 }
 // Download, hvis fil er klar.
@@ -40,7 +39,6 @@ if(isset($_POST['filnavn'])){
   $_SESSION['filnavn'] = $filnavn; 
 }
 if(!isset($_SESSION['filnavn']) and isset($_POST['filnavn'])){
-  // echo "køre denne if sætning?\n";
   $filnavn = $_POST['filnavn'];
   $_SESSION['filnavn'] = $filnavn;
 }
@@ -48,7 +46,6 @@ if(isset($_SESSION['filnavn'])){
   $filnavn = $_SESSION['filnavn'];
 }
 
-//
 if(isset($_POST["submitUpload"], $_FILES["fileToUpload"]))
  {
     $_SESSION['archi_in_file'] = basename($_FILES["fileToUpload"]["name"]);
@@ -84,10 +81,7 @@ if(isset($_SESSION['unikUploadFilnavn'])){
 }
 
 if(isset($_POST["submitUpload"], $_FILES["fileToUpload"])) {
-  //kontroller at det er et unik fil navn!
-  //if(empty($uploadedfilename)){
   $uploadedfilename = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-  //}
   $target_filnavn = basename($_FILES["fileToUpload"]["name"]);
   $uploadOk = 1;
   if($uploadOk == 1){
@@ -120,6 +114,7 @@ if(isset($_POST["submitUpload"], $_FILES["fileToUpload"])) {
     //True er redudant
     if ($uploadOk = True){
       //Filen findes allerede
+      // TODO clean up for better msg, in danish, and better placement.
       echo "Sorry, file already exists.";
     }
   }
@@ -139,11 +134,12 @@ if(isset($_POST["submitUpload"], $_FILES["fileToUpload"])) {
 
   // Check if $uploadOk is set to 0 by an error
   if ($uploadOk == 0) {
+    // TODO clean up for better msg, in danish, and better placement.
     echo "Sorry, your file was not uploaded.";
     // if everything is ok, try to upload file
   } else {
     if(isset($_SESSION['unikUploadFilnavn'])){
-      // echo $_SESSION['unikUploadFilnavn'] . "\n";
+      // Do nothing
     }
     
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $uploadedfilename)) {
@@ -156,9 +152,7 @@ if(isset($_POST["submitUpload"], $_FILES["fileToUpload"])) {
   }
 }
 if (isset($uploadOk) and $uploadOk == TRUE) {
-  // session
-  $startRunScriptTime = time();// date("i:s");
-  //runarchimatescript &
+  $startRunScriptTime = time();
   $slutRunScriptTime = $startRunScriptTime + 11;
   $_SESSION['start_tid'] = $startRunScriptTime;
   $_SESSION['slut_tid'] = $slutRunScriptTime;
@@ -222,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] = "POST") {
     $user = test_input($_POST["user"]);
     // check if e-mail address is well-formed
     if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
-      $userErr = "Invalid user/email format";
+      $userErr = "Invalid bruger/email format";
     }
   }
   // verify user&password isValid
