@@ -420,6 +420,9 @@ function test_input($data) {
       $username = $_POST['user'];
       $data["KITOS_USER"] = $username;
       $data["KITOS_PASSWORD"] = $password;
+      //TODO only when on staging/development
+      $data["KITOS_AUTHURL"] = "https://staging.kitos.dk/api/Authorize/gettoken";
+      $data["KITOS_URL"] = "https://staging.kitos.dk";
     }
     $json_object = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     file_put_contents($filename, $json_object);
